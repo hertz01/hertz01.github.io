@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Series on 赫兹的博客</title>
+    <link>https://hertz01.github.io/series/</link>
+    <description>Recent content in Series on 赫兹的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    
+        <atom:link href="https://hertz01.github.io/series/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>在虚拟机上使用桥接联网的问题</title>
+      <link>https://hertz01.github.io/2020/12/first/</link>
+      <pubDate>Wed, 23 Dec 2020 23:08:35 +0800</pubDate>
+      
+      <guid>https://hertz01.github.io/2020/12/first/</guid>
+      <description>自己是校园网用户，机器是 win10+ kali ，无线网连接，VMwave， 几天前在需要使用桥接的情况下无法连接，所以现在记录一下原因。 有关于网卡 是通过在命令行</description>
+    </item>
+    
+  </channel>
+</rss>
