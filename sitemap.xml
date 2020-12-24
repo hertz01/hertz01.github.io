@@ -10,7 +10,28 @@
   </url>
   
   <url>
+    <loc>https://hertz01.github.io/tags/</loc>
+    <lastmod>2020-12-23T23:08:35+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>https://hertz01.github.io/2020/12/first/</loc>
+    <lastmod>2020-12-23T23:08:35+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://hertz01.github.io/tags/%E6%A0%A1%E5%9B%AD%E7%BD%91/</loc>
+    <lastmod>2020-12-23T23:08:35+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://hertz01.github.io/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/</loc>
     <lastmod>2020-12-23T23:08:35+08:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
@@ -31,12 +52,6 @@
   
   <url>
     <loc>https://hertz01.github.io/series/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://hertz01.github.io/tags/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
