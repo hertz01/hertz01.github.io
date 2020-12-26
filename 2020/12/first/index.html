@@ -70,7 +70,7 @@
           </a>
           <h2 id="name" class="hidden-xs hidden-sm">赫兹</h2>
           <h3 id="title" class="hidden-xs hidden-sm hidden-md">赫兹的博客</h3>
-          <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i>Wuhan, China</small>
+          <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i>武汉, 中国</small>
         </div><div class="search" id="search-form-wrap">
     <form class="search-form sidebar-form">
         <div class="input-group">
@@ -147,7 +147,7 @@
     <h3 class="widget-title">公告</h3>
     <div class="widget-body">
         <div id="board">
-            <div class="content"><p>努力做到博客周更~</p>
+            <div class="content"><p>如果有疑问可以通过邮箱联系我；hertz_blog@163.com</p>
             </div>
         </div>
     </div>
@@ -240,6 +240,12 @@
     <a class="article-tag-link" href="/tags/%E6%A0%A1%E5%9B%AD%E7%BD%91/"> 校园网 </a>
   </span>
 
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="https://hertz01.github.io/2020/12/first/" class="leancloud_visitors"  data-flag-title="在虚拟机上使用桥接联网的问题">
+			<span class="leancloud-visitors-count">0</span>
+		</span>
+    </span>
         <span class="post-comment"><i class="icon icon-comment"></i>&nbsp;<a href="/2020/12/first/#comments"
             class="article-comment-link">评论</a></span>
 		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 512字</span>
@@ -306,6 +312,7 @@ netmask xxx.xxx.xxx.xxx
     </div>
   </article>
 <section id="comments">
+    <div id="vcomments"></div>
 </section>
 
 </div><nav class="bar bar-footer clearfix" data-stick-bottom>
@@ -325,7 +332,7 @@ netmask xxx.xxx.xxx.xxx
             <i class="icon icon-rss"></i></a></li>
 </ul>
   <div class="copyright">
-    &copy;2017  -
+    &copy;2020  -
     2020
     <div class="publishby">
         Theme by <a href="https://github.com/xiaoheiAh" target="_blank"> xiaoheiAh </a>base on<a href="https://github.com/xiaoheiAh/hugo-theme-pure" target="_blank"> pure</a>.
@@ -392,6 +399,27 @@ netmask xxx.xxx.xxx.xxx
     });
 </script>
 
+<script src="https://cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine"></script>
+<script type="text/javascript">
+    var GUEST = ['nick', 'mail', 'link'];
+    var meta = 'nick,mail';
+    meta = meta.split(',').filter(function (item) {
+        return GUEST.indexOf(item) > -1;
+    });
+    new Valine({
+        el: '#vcomments',
+        verify: false ,
+        notify:"flase",
+        appId: 'dwfkElvRcs2LHR1ejwoMSU1J-gzGzoHsz',
+        appKey: 'Hw8PeYrFkRqHgLcjCsgXi48',
+        placeholder: 'enjoy~',
+        avatar: 'mm',
+        meta: meta,
+        pageSize: '10' || 10,
+        visitor: true 
+});
+</script>
 
   </body>
 </html>
