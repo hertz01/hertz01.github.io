@@ -1,27 +1,22 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on 赫兹的博客</title>
     <link>https://hertz01.github.io/tags/</link>
     <description>Recent content in Tags on 赫兹的博客</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 23 Dec 2020 23:08:35 +0800</lastBuildDate><atom:link href="https://hertz01.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>校园网</title>
-      <link>https://hertz01.github.io/tags/%E6%A0%A1%E5%9B%AD%E7%BD%91/</link>
-      <pubDate>Wed, 23 Dec 2020 23:08:35 +0800</pubDate>
-      
-      <guid>https://hertz01.github.io/tags/%E6%A0%A1%E5%9B%AD%E7%BD%91/</guid>
-      <description></description>
-    </item>
+    <lastBuildDate>Wed, 23 Dec 2020 23:08:35 +0800</lastBuildDate>
+    
+        <atom:link href="https://hertz01.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
-      <title>虚拟机</title>
-      <link>https://hertz01.github.io/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/</link>
+      <title>在虚拟机上使用桥接联网的问题</title>
+      <link>https://hertz01.github.io/2020/12/first/</link>
       <pubDate>Wed, 23 Dec 2020 23:08:35 +0800</pubDate>
       
-      <guid>https://hertz01.github.io/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/</guid>
-      <description></description>
+      <guid>https://hertz01.github.io/2020/12/first/</guid>
+      <description>自己是校园网用户，机器是 win10+ kali ，无线网连接，VMwave， 几天前在需要使用桥接的情况下无法连接，所以现在记录一下原因。 有关于网卡 是通过在命令行</description>
     </item>
     
   </channel>
