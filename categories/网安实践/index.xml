@@ -1,15 +1,11 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>网安实践 on 赫兹的博客</title>
     <link>https://hertz01.github.io/categories/%E7%BD%91%E5%AE%89%E5%AE%9E%E8%B7%B5/</link>
     <description>Recent content in 网安实践 on 赫兹的博客</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 23 Dec 2020 23:08:35 +0800</lastBuildDate>
-    
-        <atom:link href="https://hertz01.github.io/categories/%E7%BD%91%E5%AE%89%E5%AE%9E%E8%B7%B5/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Wed, 23 Dec 2020 23:08:35 +0800</lastBuildDate><atom:link href="https://hertz01.github.io/categories/%E7%BD%91%E5%AE%89%E5%AE%9E%E8%B7%B5/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>在虚拟机上使用桥接联网的问题</title>
       <link>https://hertz01.github.io/2020/12/first/</link>
